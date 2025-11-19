@@ -20,10 +20,21 @@ const Menu: React.FC<MenuProps> = ({ menuItems, addToCart, cartItems, updateQuan
     if (!searchQuery.trim()) return items;
     
     const query = searchQuery.toLowerCase().trim();
-    return items.filter(item => 
+    const filtered = items.filter(item => 
       item.name.toLowerCase().includes(query) ||
       item.description.toLowerCase().includes(query)
     );
+    
+    // Remove duplicates by item name (keep first occurrence)
+    const seen = new Set<string>();
+    return filtered.filter(item => {
+      const nameKey = item.name.toLowerCase();
+      if (seen.has(nameKey)) {
+        return false;
+      }
+      seen.add(nameKey);
+      return true;
+    });
   };
 
   const displayItems = filterItemsBySearch(menuItems);
