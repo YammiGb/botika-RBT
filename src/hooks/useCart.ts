@@ -64,12 +64,8 @@ export const useCart = () => {
       });
       
       if (existingItem) {
-        // Item already exists, increment quantity
-        return prev.map(cartItem =>
-          cartItem === existingItem
-            ? { ...cartItem, quantity: cartItem.quantity + quantity }
-            : cartItem
-        );
+        // Item already exists, don't add duplicate
+        return prev;
       } else {
         // New item, add to cart with unique id that preserves original menu item id
         const uniqueId = `${item.id}:::CART:::${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;

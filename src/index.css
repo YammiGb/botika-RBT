@@ -2,16 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Just Cafe Custom Styles */
-/* Minimal helpers for cafe palette when needed outside tailwind tokens */
-.bg-cafe-cream { background-color: #FAF9F6; }
-.bg-cafe-beige { background-color: #F5F3F0; }
-.bg-cafe-light { background-color: #FEFCFB; }
-.text-cafe-accent { color: #9A6624; }
-.text-cafe-dark { color: #0B0A0A; }
-.border-cafe-accent { border-color: #9A6624; }
-.border-cafe-latte { border-color: #E8E3DC; }
-.ring-cafe-accent { --tw-ring-color: #9A6624; }
+/* Botika RBT Custom Styles */
+/* Minimal helpers for Botika RBT palette when needed outside tailwind tokens */
+.bg-botika-cream { background-color: #F1F5F9; }
+.bg-botika-beige { background-color: #E2E8F0; }
+.bg-botika-light { background-color: #F8FAFC; }
+.text-botika-accent { color: #00BD61; }
+.text-botika-dark { color: #1E293B; }
+.border-botika-accent { border-color: #00BD61; }
+.border-botika-border { border-color: #CBD5E1; }
+.ring-botika-accent { --tw-ring-color: #00BD61; }
 
 /* Hide scrollbar for mobile nav */
 .scrollbar-hide {

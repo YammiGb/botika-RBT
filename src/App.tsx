@@ -2,12 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useCart } from './hooks/useCart';
 import Header from './components/Header';
-import SubNav from './components/SubNav';
 import Menu from './components/Menu';
 import Cart from './components/Cart';
 import Checkout from './components/Checkout';
 import FloatingCartButton from './components/FloatingCartButton';
 import AdminDashboard from './components/AdminDashboard';
+import GeneralInquiries from './components/GeneralInquiries';
 import { useMenu } from './hooks/useMenu';
 
 function MainApp() {
@@ -15,6 +15,7 @@ function MainApp() {
   const { menuItems } = useMenu();
   const [currentView, setCurrentView] = React.useState<'menu' | 'cart' | 'checkout'>('menu');
   const [selectedCategory, setSelectedCategory] = React.useState<string>('all');
+  const [isGeneralInquiriesOpen, setIsGeneralInquiriesOpen] = React.useState(false);
 
   const handleViewChange = (view: 'menu' | 'cart' | 'checkout') => {
     setCurrentView(view);
@@ -30,13 +31,18 @@ function MainApp() {
     : menuItems.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-cafe-light font-inter">
+    <div className="min-h-screen bg-botika-light font-inter">
       <Header 
         cartItemsCount={cart.getTotalItems()}
         onCartClick={() => handleViewChange('cart')}
         onMenuClick={() => handleViewChange('menu')}
+        onGeneralInquiriesClick={() => setIsGeneralInquiriesOpen(true)}
       />
-      <SubNav selectedCategory={selectedCategory} onCategoryClick={handleCategoryClick} />
+      
+      <GeneralInquiries 
+        isOpen={isGeneralInquiriesOpen}
+        onClose={() => setIsGeneralInquiriesOpen(false)}
+      />
       
       {currentView === 'menu' && (
         <Menu 

@@ -4,21 +4,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        cafe: {
-          accent: '#9A6624',
-          dark: '#0B0A0A',
-          cream: '#FAF9F6',
-          beige: '#F5F3F0',
-          latte: '#E8E3DC',
-          espresso: '#3D2F1F',
-          light: '#FEFCFB'
+        botika: {
+          accent: '#00BD61', // Green accent
+          dark: '#1E293B', // Dark blue-gray
+          light: '#F8FAFC', // Off-white background
+          cream: '#F1F5F9', // Light blue-gray
+          beige: '#E2E8F0', // Light gray-blue
+          border: '#CBD5E1', // Border color
+          hover: '#00A050', // Darker green for hover
+          text: '#0F172A' // Dark text
         }
       },
       fontFamily: {
         'pretendard': ['Pretendard', 'system-ui', 'sans-serif'],
         'noto-kr': ['Noto Serif KR', 'serif'],
         'noto': ['Noto Serif', 'serif'],
-        'playfair': ['Playfair Display', 'serif']
+        'playfair': ['Playfair Display', 'serif'],
+        'inter': ['Inter', 'system-ui', 'sans-serif']
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
