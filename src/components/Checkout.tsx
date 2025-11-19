@@ -19,14 +19,14 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
   const [serviceType, setServiceType] = useState<ServiceType>('pickup');
   const [address, setAddress] = useState('');
   const [landmark, setLandmark] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('gcash');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('gcash-maya');
   const [notes, setNotes] = useState('');
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [step]);
 
-  // Build effective payment methods list including Cash (Onsite)
+  // Build effective payment methods list including Cash (Onsite), Gcash/Maya, and Bank Transfer
   const cashMethod = {
     id: 'cash',
     name: 'Cash (Onsite)',
@@ -38,7 +38,32 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
     created_at: '',
     updated_at: ''
   } as any;
-  const effectivePaymentMethods = [...paymentMethods, cashMethod];
+  
+  const gcashMayaMethod = {
+    id: 'gcash-maya',
+    name: 'Gcash/Maya',
+    account_number: '',
+    account_name: '',
+    qr_code_url: '',
+    active: true,
+    sort_order: 1,
+    created_at: '',
+    updated_at: ''
+  } as any;
+  
+  const bankTransferMethod = {
+    id: 'bank-transfer',
+    name: 'Bank Transfer',
+    account_number: '',
+    account_name: '',
+    qr_code_url: '',
+    active: true,
+    sort_order: 2,
+    created_at: '',
+    updated_at: ''
+  } as any;
+  
+  const effectivePaymentMethods = [...paymentMethods, gcashMayaMethod, bankTransferMethod, cashMethod];
 
   // Set default payment method when payment methods are loaded
   React.useEffect(() => {
@@ -84,7 +109,6 @@ ${cartItems.map(item => {
 ${serviceType === 'delivery' ? `🛵 DELIVERY` : ''}
 
 💳 Payment: ${selectedPaymentMethod?.name || paymentMethod}
-${paymentMethod === 'cash' ? '' : '📸 Payment Screenshot: Please attach your payment receipt screenshot'}
 
 ${notes ? `📝 Notes: ${notes}` : ''}
 
@@ -297,47 +321,38 @@ Please confirm this inquiry to proceed. Thank you for choosing Botika RBT! 💊
             ))}
           </div>
 
-          {/* Payment Details with QR Code (hide for cash) */}
-          {selectedPaymentMethod && paymentMethod !== 'cash' && (
-            <div className="bg-botika-beige rounded-lg p-6 mb-6 border border-botika-border">
-              <h3 className="font-medium text-botika-dark mb-4">Payment Details</h3>
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div className="flex-1">
-                  <p className="text-sm text-gray-600 mb-1">{selectedPaymentMethod.name}</p>
-                  <p className="font-mono text-botika-dark font-medium">{selectedPaymentMethod.account_number}</p>
-                  <p className="text-sm text-gray-600 mb-3">Account Name: {selectedPaymentMethod.account_name}</p>
-                </div>
-                <div className="flex-shrink-0">
-                  <img 
-                    src={selectedPaymentMethod.qr_code_url} 
-                    alt={`${selectedPaymentMethod.name} QR Code`}
-                    className="w-32 h-32 rounded-lg border-2 border-botika-border shadow-sm"
-                    onError={(e) => {
-                      e.currentTarget.src = 'https://images.pexels.com/photos/8867482/pexels-photo-8867482.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop';
-                    }}
-                  />
-                  <p className="text-xs text-gray-500 text-center mt-2">Scan to pay</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Payment instructions: show proof section only for non-cash */}
-          {paymentMethod !== 'cash' ? (
-            <div className="bg-botika-cream border border-botika-border rounded-lg p-4">
-              <h4 className="font-medium text-botika-dark mb-2">📸 Payment Proof Required</h4>
-              <p className="text-sm text-gray-700">
-                After making your payment, please take a screenshot of your payment receipt and attach it when you send your order via Messenger. This helps us verify and process your order quickly.
-              </p>
-            </div>
-          ) : (
-            <div className="bg-botika-cream border border-botika-border rounded-lg p-4">
-              <h4 className="font-medium text-botika-dark mb-2">💵 Pay with Cash Onsite</h4>
-              <p className="text-sm text-gray-700">
-                Please proceed to the counter and pay in cash when you arrive. No payment screenshot needed.
-              </p>
-            </div>
-          )}
+          {/* Payment instructions */}
+          <div className="bg-botika-cream border border-botika-border rounded-lg p-4">
+            {paymentMethod === 'cash' ? (
+              <>
+                <h4 className="font-medium text-botika-dark mb-2">💵 Pay with Cash Onsite</h4>
+                <p className="text-sm text-gray-700">
+                  Please proceed to the counter and pay in cash when you arrive. No payment screenshot needed.
+                </p>
+              </>
+            ) : paymentMethod === 'gcash-maya' ? (
+              <>
+                <h4 className="font-medium text-botika-dark mb-2">💳 Pay with GCash/Maya</h4>
+                <p className="text-sm text-gray-700">
+                  Payment details will be provided after you send your inquiry. No payment screenshot needed at this time.
+                </p>
+              </>
+            ) : paymentMethod === 'bank-transfer' ? (
+              <>
+                <h4 className="font-medium text-botika-dark mb-2">🏦 Pay via Bank Transfer</h4>
+                <p className="text-sm text-gray-700">
+                  Payment details will be provided after you send your inquiry. No payment screenshot needed at this time.
+                </p>
+              </>
+            ) : (
+              <>
+                <h4 className="font-medium text-botika-dark mb-2">💳 Payment Method</h4>
+                <p className="text-sm text-gray-700">
+                  Payment details will be provided after you send your inquiry.
+                </p>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Final Inquiry Summary */}
