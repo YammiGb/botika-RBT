@@ -79,7 +79,6 @@ ${cartItems.map(item => {
         : addOn.name
     ).join(', ')}`;
   }
-  itemDetails += ` x${item.quantity}`;
   return itemDetails;
 }).join('\n')}
 ${serviceType === 'delivery' ? `🛵 DELIVERY` : ''}
